@@ -5,6 +5,7 @@ branches:
 image: Visual Studio 2017
 environment:
   CMAKE_BUILD_FOLDER: $(APPVEYOR_BUILD_FOLDER)/cmake
+  TEST_SCRIPT: test.ps1
   matrix:
   - CMAKE_GENERATOR: Visual Studio 15 2017
     CMAKE_CONFIG: release
@@ -16,9 +17,11 @@ environment:
     CMAKE_CONFIG: debug
   - CMAKE_GENERATOR: Visual Studio 15 2017 ARM
     CMAKE_CONFIG: release
+    TEST_SCRIPT: test-arm.ps1
   - CMAKE_GENERATOR: Visual Studio 15 2017 ARM
     CMAKE_CONFIG: debug
+    TEST_SCRIPT: test-arm.ps1
 build_script:
 - pwsh: '. "$Env:APPVEYOR_BUILD_FOLDER/build.ps1" -CMakeBuildFolder $Env:CMAKE_BUILD_FOLDER -Generator $Env:CMAKE_GENERATOR -Config $Env:CMAKE_CONFIG'
 test_script:
-- pwsh: '. "$Env:APPVEYOR_BUILD_FOLDER/test.ps1" -Root $Env:CMAKE_BUILD_FOLDER'
+- pwsh: '. "$Env:APPVEYOR_BUILD_FOLDER/$Env:TEST_SCRIPT" -Root $Env:CMAKE_BUILD_FOLDER'
