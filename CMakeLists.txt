@@ -1,0 +1,5 @@
+﻿cmake_minimum_required (VERSION 3.8)
+
+add_subdirectory(external/googletest)
+add_subdirectory(inverter)
+add_subdirectory(inverter-test)
