@@ -1,0 +1,15 @@
+version: 1.0.{build}
+branches:
+  only:
+  - master
+image: Visual Studio 2017
+environment:
+  CMAKE_BUILD_FOLDER: $(APPVEYOR_BUILD_FOLDER)/cmake
+build_script:
+- pwsh: >-
+    New-Item -Type Directory $Env:CMAKE_BUILD_FOLDER
+    Set-Location $Env:CMAKE_BUILD_FOLDER
+    cmake -G Ninja ../
+    cmake --build .
+test_script:
+- pwsh: '&"$Env:CMAKE_BUILD_FOLDER/inverter-test/Debug/inverter-test"'
