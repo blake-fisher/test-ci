@@ -3,7 +3,9 @@ Param(
     [Parameter(Mandatory)]
     $CMakeBuildFolder,
     [Parameter(Mandatory)]
-    $Generator
+    $Generator,
+    [Parameter(Mandatory)]
+    $Config
 )
 
 $ErrorActionPreference = "stop"
@@ -13,7 +15,7 @@ Push-Location $CMakeBuildFolder
 try
 {
     cmake -G $Generator $PSScriptRoot
-    cmake --build .
+    cmake --build . --config $Config
 }
 finally
 {
