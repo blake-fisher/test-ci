@@ -1,0 +1,14 @@
+language: cpp
+install: brew cask install powershell
+script: pwsh build.ps1 -CMakeBuildFolder built -Generator ${generator} -Config ${config} && pwsh test.ps1 -Root built
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.3
+      generator: Xcode
+      config: release
+    - os: osx
+      osx_image: xcode9.3
+      generator: Xcode
+      config: debug
+
