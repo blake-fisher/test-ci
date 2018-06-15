@@ -8,5 +8,5 @@ TEST(InverterTest, TrueToFalse)
 
 TEST(InverterTest, FalseToTrue)
 {
-    EXPECT_EQ(true, invert(false));
+    EXPECT_EQ(true, invert(true));
 }
