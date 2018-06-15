@@ -8,23 +8,26 @@ $ErrorActionPreference = "stop"
 
 function main
 {
-    foreach ($test in getTests)
+    $test = getTest
+    $report = "$($test.DirectoryName)/report.xml"
+    $success = runTest $test
+    uploadReport $report
+    if (! $success)
     {
-        $report = runTest $test
-        uploadReport $report
+        Write-Error "Test $($test.FullName) failed"
     }
 }
 
-function getTests
+function getTest
 {
-    Get-ChildItem "$Root\inverter-test" -Recurse -File -Include inverter-test,inverter-test.exe
+    Get-ChildItem "$Root\inverter-test" -Recurse -File -Include inverter-test,inverter-test.exe | Select-Object -First 1
 }
 
-function runTest($test)
+function runTest($test, $report)
 {
-    $report = "$($test.DirectoryName)/report.xml"
+    
     &$test --gtest_output=xml:$report | Write-Host
-    return $report
+    return $LASTEXITCODE -eq 0
 }
 
 function uploadReport($report)
